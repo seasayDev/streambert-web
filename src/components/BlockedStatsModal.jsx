@@ -10,6 +10,8 @@ export default function BlockedStatsModal({
   sessionTotal,
   alltimeTotal,
   onClose,
+  source = "none",
+  extensionDetected = false,
 }) {
   // Close on Escape
   useEffect(() => {
@@ -41,6 +43,25 @@ export default function BlockedStatsModal({
           {sessionTotal > 0
             ? `${sessionTotal} ad/tracker request${sessionTotal === 1 ? "" : "s"} blocked this session`
             : "Start playing content to see blocked ads & trackers."}
+        </div>
+
+        <div className="blocked-modal-source">
+          {source === "sw" ? (
+            <>
+              <ShieldBlockIcon size={12} /> Blocking active — Streambert
+              Service Worker
+            </>
+          ) : source === "extension" ? (
+            <>
+              <ShieldBlockIcon size={12} /> Browser blocker detected
+              {extensionDetected ? " (uBlock / AdGuard / Brave Shields)" : ""}
+            </>
+          ) : (
+            <>
+              <ShieldBlockIcon size={12} /> No blocker active — install uBlock
+              Origin or enable Brave Shields for in-video blocking
+            </>
+          )}
         </div>
 
         <div className="blocked-modal-list">

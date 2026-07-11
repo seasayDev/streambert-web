@@ -126,6 +126,8 @@ export default function MoviePage({
     showModal: showBlockedModal,
     setShowModal: setShowBlockedModal,
     getSessionDomains: getBlockedDomains,
+    source: blockedSource,
+    extensionDetected: blockerExtension,
   } = useBlockedStats(item.id);
 
   // Age rating
@@ -1169,6 +1171,8 @@ export default function MoviePage({
           sessionTotal={blockedSession}
           alltimeTotal={blockedAlltime}
           onClose={() => setShowBlockedModal(false)}
+          source={blockedSource}
+          extensionDetected={blockerExtension}
         />
       )}
 

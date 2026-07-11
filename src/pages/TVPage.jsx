@@ -465,6 +465,8 @@ export default function TVPage({
     showModal: showBlockedModal,
     setShowModal: setShowBlockedModal,
     getSessionDomains: getBlockedDomains,
+    source: blockedSource,
+    extensionDetected: blockerExtension,
   } = useBlockedStats(blockedResetKey);
 
   // Age rating
@@ -2167,6 +2169,8 @@ export default function TVPage({
           sessionTotal={blockedSession}
           alltimeTotal={blockedAlltime}
           onClose={() => setShowBlockedModal(false)}
+          source={blockedSource}
+          extensionDetected={blockerExtension}
         />
       )}
 
