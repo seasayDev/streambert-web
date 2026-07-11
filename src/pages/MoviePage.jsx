@@ -43,6 +43,7 @@ import BlockedStatsModal from "../components/BlockedStatsModal";
 import { useBlockedStats } from "../utils/useBlockedStats";
 import MediaCard from "../components/MediaCard";
 import { storage } from "../utils/storage";
+import { CAN_DOWNLOAD } from "../utils/platform";
 import {
   fetchMovieRating,
   isRestricted,
@@ -1050,6 +1051,7 @@ export default function MoviePage({
                 ))}
               </div>
             )}
+            {CAN_DOWNLOAD && (
             <button
               className="player-overlay-btn"
               onClick={() =>
@@ -1092,6 +1094,7 @@ export default function MoviePage({
                 </span>
               )}
             </button>
+            )}
           </div>
 
           {displayPct > 0 && (

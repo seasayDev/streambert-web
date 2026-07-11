@@ -1709,7 +1709,6 @@ function StartPageSection() {
           options={[
             { value: "home", label: "🏠  Home" },
             { value: "history", label: "🕐  Library / History" },
-            { value: "downloads", label: "⬇  Downloads" },
           ]}
         />
         <button className="btn btn-primary" onClick={handleSave}>
@@ -2394,20 +2393,6 @@ const SECTION_NAV = [
       "srt",
       "download",
       "cc",
-    ],
-  },
-  {
-    id: "downloads",
-    label: "Downloads",
-    icon: "⬇",
-    keywords: [
-      "download",
-      "folder",
-      "path",
-      "save",
-      "video",
-      "movies",
-      "files",
     ],
   },
   {
@@ -3139,7 +3124,6 @@ export default function SettingsPage({
     content: secContent,
     playback: secPlayback,
     subtitles: secSubtitles,
-    downloads: secDownloads,
     notifications: secNotifications,
     interface: secInterface,
     library: secLibrary,
@@ -3937,7 +3921,7 @@ export default function SettingsPage({
         <div ref={secStorage} style={{ scrollMarginTop: 80 }}>
           <SectionGroupHeader
             title="Storage & Data"
-            subtitle="Clear cache, watch progress, downloads, or reset the entire app"
+            subtitle="Clear cache, watch progress, or reset the entire app"
           />
 
           <div
@@ -3948,20 +3932,24 @@ export default function SettingsPage({
               overflow: "hidden",
             }}
           >
-            {/* Install location */}
-            <div style={{ padding: "22px 24px" }}>
-              <CleanRow
-                title="Install Location"
-                description="Opens the folder where Streambert is installed."
-                buttonLabel="Open Folder"
-                onAction={async () => {
-                  const p = await window.electron?.getInstallPath?.();
-                  if (p) window.electron.openPath(p);
-                }}
-              />
-            </div>
+            {!isElectron && (
+              <>
+              {/* Install location */}
+              <div style={{ padding: "22px 24px" }}>
+                <CleanRow
+                  title="Install Location"
+                  description="Opens the folder where Streambert is installed."
+                  buttonLabel="Open Folder"
+                  onAction={async () => {
+                    const p = await window.electron?.getInstallPath?.();
+                    if (p) window.electron.openPath(p);
+                  }}
+                />
+              </div>
 
-            <div style={{ height: 1, background: "var(--border)" }} />
+              <div style={{ height: 1, background: "var(--border)" }} />
+              </>
+            )}
 
             {/* Cache */}
             <div style={{ padding: "22px 24px" }}>
@@ -3994,24 +3982,28 @@ export default function SettingsPage({
 
             <div style={{ height: 1, background: "var(--border)" }} />
 
-            {/* Delete Downloads */}
-            <div style={{ padding: "22px 24px" }}>
-              <CleanRow
-                title="Delete All Downloads"
-                description="Permanently deletes all video files that were downloaded through Streambert and removes them from the download list. Only files downloaded through the app will be deleted, nothing else in your folder is touched."
-                buttonLabel="Delete All"
-                onAction={() =>
-                  new Promise((resolve) => {
-                    setShowDeleteDlConfirm(true);
-                    window.__deleteDlConfirmResolve = resolve;
-                  })
-                }
-                sizeLabel={formatBytes(sizes.downloads)}
-                danger
-              />
-            </div>
+            {!isElectron && (
+              <>
+              {/* Delete Downloads */}
+              <div style={{ padding: "22px 24px" }}>
+                <CleanRow
+                  title="Delete All Downloads"
+                  description="Permanently deletes all video files that were downloaded through Streambert and removes them from the download list. Only files downloaded through the app will be deleted, nothing else in your folder is touched."
+                  buttonLabel="Delete All"
+                  onAction={() =>
+                    new Promise((resolve) => {
+                      setShowDeleteDlConfirm(true);
+                      window.__deleteDlConfirmResolve = resolve;
+                    })
+                  }
+                  sizeLabel={formatBytes(sizes.downloads)}
+                  danger
+                />
+              </div>
 
-            <div style={{ height: 1, background: "var(--border)" }} />
+              <div style={{ height: 1, background: "var(--border)" }} />
+              </>
+            )}
 
             {/* Full Reset */}
             <div

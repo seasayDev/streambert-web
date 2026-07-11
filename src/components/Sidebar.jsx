@@ -24,6 +24,7 @@ export default function Sidebar({
   canGoBack,
   onBack,
   onShowShortcuts,
+  hideDownloads = false,
 }) {
   const [dragOver, setDragOver] = useState(null);
   const dragItem = useRef(null);
@@ -125,13 +126,15 @@ export default function Sidebar({
         icon={<HistoryIcon />}
         label="Library & History"
       />
-      <SideBtn
-        active={page === "downloads"}
-        onClick={() => onNavigate("downloads")}
-        icon={<DownloadsQueueIcon />}
-        label="Downloads"
-        badge={activeDownloads > 0 ? activeDownloads : null}
-      />
+      {!hideDownloads && (
+        <SideBtn
+          active={page === "downloads"}
+          onClick={() => onNavigate("downloads")}
+          icon={<DownloadsQueueIcon />}
+          label="Downloads"
+          badge={activeDownloads > 0 ? activeDownloads : null}
+        />
+      )}
       <SideBtn
         active={page === "settings"}
         onClick={() => onNavigate("settings")}

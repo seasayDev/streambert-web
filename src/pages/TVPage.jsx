@@ -49,6 +49,7 @@ import TrailerModal from "../components/TrailerModal";
 import BlockedStatsModal from "../components/BlockedStatsModal";
 import { useBlockedStats } from "../utils/useBlockedStats";
 import { storage, STORAGE_KEYS } from "../utils/storage";
+import { CAN_DOWNLOAD } from "../utils/platform";
 import { fetchAniSkipTimings } from "../utils/aniSkip";
 import {
   fetchTVRating,
@@ -1843,6 +1844,7 @@ export default function TVPage({
                     ))}
                   </div>
                 )}
+                {CAN_DOWNLOAD && (
                 <button
                   className="player-overlay-btn"
                   onClick={() =>
@@ -1885,6 +1887,7 @@ export default function TVPage({
                     </span>
                   )}
                 </button>
+                )}
 
                 {/* Skip controls are injected directly into the webview DOM*/}
 
@@ -2167,7 +2170,7 @@ export default function TVPage({
         />
       )}
 
-      {showDownload && (
+      {showDownload && CAN_DOWNLOAD && (
         <DownloadModal
           onClose={() => setShowDownload(false)}
           m3u8Url={m3u8Url}

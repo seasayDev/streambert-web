@@ -27,6 +27,7 @@ const LibraryPage = lazy(() => import("./pages/LibraryPage"));
 const SettingsPage = lazy(() => import("./pages/SettingsPage"));
 const DownloadsPage = lazy(() => import("./pages/DownloadsPage"));
 import { checkForUpdates } from "./utils/updates";
+import { IS_WEB, CAN_DOWNLOAD } from "./utils/platform";
 
 export default function App() {
   const [apiKey, setApiKey] = useState(null);
@@ -672,6 +673,7 @@ export default function App() {
           canGoBack={navStack.length > 0}
           onBack={navigateBack}
           onShowShortcuts={() => setShowShortcuts(true)}
+          hideDownloads={!CAN_DOWNLOAD}
         />
 
         <div className="main">
@@ -795,7 +797,7 @@ export default function App() {
                 initialSection={selected?.section}
               />
             )}
-            {page === "downloads" && (
+            {page === "downloads" && CAN_DOWNLOAD && (
               <DownloadsPage
                 downloads={downloads}
                 onDeleteDownload={handleDeleteDownload}
