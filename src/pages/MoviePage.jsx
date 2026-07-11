@@ -423,12 +423,21 @@ export default function MoviePage({
     if (!playing) return;
     const wv = webviewRef.current;
     if (!wv) return;
-    const done = () => setWebviewLoading(false);
-    wv.addEventListener("did-finish-load", done);
-    wv.addEventListener("did-fail-load", done);
+    let settled = false;
+    const done = () => {
+      if (settled) return;
+      settled = true;
+      setWebviewLoading(false);
+    };
+    wv.addEventListener("load", done);
+    wv.addEventListener("error", done);
+    // Safety timeout: never leave the spinner spinning forever if the
+    // iframe load event never fires (e.g. cross-origin load quirks).
+    const safety = setTimeout(done, 15000);
     return () => {
-      wv.removeEventListener("did-finish-load", done);
-      wv.removeEventListener("did-fail-load", done);
+      wv.removeEventListener("load", done);
+      wv.removeEventListener("error", done);
+      clearTimeout(safety);
     };
   }, [playing, playerSource, item.id]);
 
