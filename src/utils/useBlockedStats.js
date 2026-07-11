@@ -34,20 +34,6 @@ export function useBlockedStats(resetKey) {
     } catch {}
   }, [resetKey]);
 
-  // Merge redirect-popup blocks into the same counter (honest combined count).
-  useEffect(() => {
-    const onBlock = (e) => {
-      const detail = e.detail || {};
-      sessionDomainsRef.current["ad-popup redirect"] =
-        (sessionDomainsRef.current["ad-popup redirect"] || 0) + 1;
-      setSessionTotal((t) => t + 1);
-      setSource((s) => (s === "none" ? "sw" : s));
-    };
-    window.addEventListener("streambert:redirect-blocked", onBlock);
-    return () =>
-      window.removeEventListener("streambert:redirect-blocked", onBlock);
-  }, []);
-
   // Listen to Service Worker blocked-stats broadcasts
   useEffect(() => {
     let bc;

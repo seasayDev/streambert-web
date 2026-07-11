@@ -28,7 +28,6 @@ const SettingsPage = lazy(() => import("./pages/SettingsPage"));
 const DownloadsPage = lazy(() => import("./pages/DownloadsPage"));
 import { checkForUpdates } from "./utils/updates";
 import { IS_WEB, CAN_DOWNLOAD } from "./utils/platform";
-import { installAntiRedirect } from "./utils/antiRedirect";
 
 export default function App() {
   const [apiKey, setApiKey] = useState(null);
@@ -72,11 +71,6 @@ export default function App() {
         if (r.hasUpdate) setUpdateBanner(r);
       })
       .catch(() => {});
-  }, []);
-
-  // ── Startup: block ad-popup redirects from embedded players ──────────────
-  useEffect(() => {
-    installAntiRedirect();
   }, []);
 
   // ── Startup: new-episode notification check ──────────────────────────────
